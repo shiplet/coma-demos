@@ -1,6 +1,5 @@
 <template>
 	<div class="home">
-		<img alt="Vue logo" src="../assets/logo.png" />
 		<h1>Welcome to Coma Physics</h1>
 		<p>
 			This is the companion site for everything I'm learning about building a
@@ -31,24 +30,24 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import NavButton from '@/components/NavButton'
-import Gallery from '@/components/Gallery'
+	// @ is an alias to /src
+	import NavButton from '@/components/NavButton'
+	import Gallery from '@/components/Gallery'
 
-export default {
-	name: 'Home',
-	components: {
-		Gallery,
-		NavButton,
-	},
-}
+	export default {
+		name: 'Home',
+		components: {
+			Gallery,
+			NavButton,
+		},
+	}
 </script>
 
 <style lang="scss" scoped>
-a,
-a:visited,
-a:active {
-	color: #42b983;
-	text-decoration: none;
-}
+	a,
+	a:visited,
+	a:active {
+		color: #42b983;
+		text-decoration: none;
+	}
 </style>
