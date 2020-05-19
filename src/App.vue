@@ -9,31 +9,33 @@
 </template>
 
 <style lang="scss">
-body,
-html {
-	height: 100%;
-	width: 100%;
-	background: #2c2c2c;
-}
+	body,
+	html {
+		margin: 0;
+		padding: 0;
+		height: 100%;
+		width: 100%;
+		background: #2c2c2c;
+	}
 
-#app {
-	font-family: Avenir, Helvetica, Arial, sans-serif;
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-	text-align: center;
-	color: #fefefe;
-}
-
-#nav {
-	padding: 30px;
-
-	a {
-		font-weight: bold;
+	#app {
+		font-family: Avenir, Helvetica, Arial, sans-serif;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+		text-align: center;
 		color: #fefefe;
+	}
 
-		&.router-link-exact-active {
-			color: #42b983;
+	#nav {
+		padding: 30px;
+
+		a {
+			font-weight: bold;
+			color: #fefefe;
+
+			&.router-link-exact-active {
+				color: #42b983;
+			}
 		}
 	}
-}
 </style>
