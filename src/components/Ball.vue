@@ -78,11 +78,39 @@
 			const windowWidth = window.innerWidth
 			const windowHeight = window.innerHeight
 
+			this.generateParticle(particleType)
+
+			const animateOnFrame = () => {
+				try {
+					this.particle?.integrate((performance.now() - this.start) / 1000)
+					const pos = this.particle?.getPosition()
+					if (pos) {
+						this.currentPosition.x += pos.x
+						this.currentPosition.y += pos.y
+						if (
+							Math.abs(this.currentPosition.x) >= windowWidth ||
+							Math.abs(this.currentPosition.y) >= windowHeight
+						) {
+							cancelAnimationFrame(this.animationFrame)
+						}
+					}
+				} catch (e) {
+					setTimeout(() => {
+						console.log('wait for non-zero duration')
+					}, 0)
+				}
+				this.animationFrame = requestAnimationFrame(animateOnFrame)
+			}
+
+			animateOnFrame()
+		}
+
+		generateParticle(particleType: string) {
 			let velocity, acceleration
 
 			switch (particleType) {
 				case 'pistol':
-					velocity = new Vector3(35, 0, 0)
+					velocity = new Vector3(50, 0, 0)
 					acceleration = new Vector3(0, -1, 0)
 					this.particle = new Particle(
 						this.initialPosition,
@@ -115,7 +143,7 @@
 					this.particle.setMass(1)
 					break
 				case 'laser':
-					velocity = new Vector3(100, 0, 0)
+					velocity = new Vector3(150, 0, 0)
 					acceleration = new Vector3(0, 0, 0)
 					this.particle = new Particle(
 						this.initialPosition,
@@ -126,30 +154,6 @@
 					this.particle.setMass(0.1)
 					break
 			}
-
-			const animateOnFrame = () => {
-				try {
-					this.particle?.integrate((performance.now() - this.start) / 1000)
-					const pos = this.particle?.getPosition()
-					if (pos) {
-						this.currentPosition.x += pos.x
-						this.currentPosition.y += pos.y
-						if (
-							Math.abs(this.currentPosition.x) >= windowWidth ||
-							Math.abs(this.currentPosition.y) >= windowHeight
-						) {
-							cancelAnimationFrame(this.animationFrame)
-						}
-					}
-				} catch (e) {
-					setTimeout(() => {
-						console.log('wait for non-zero duration')
-					}, 0)
-				}
-				this.animationFrame = requestAnimationFrame(animateOnFrame)
-			}
-
-			animateOnFrame()
 		}
 
 		resetState() {
