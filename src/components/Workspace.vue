@@ -1,15 +1,28 @@
 <template>
 	<div :class="[settingActive ? 'setting' : '']">
+		<div class="stats">
+			<p>
+				Current Position: <span>x: {{ currentPosition.x }}</span
+				><span>y: {{ currentPosition.y }}</span>
+			</p>
+			<p>
+				Current Velocity: <span>x: {{ currentVelocity.x }}</span
+				><span>y: {{ currentVelocity.y }}</span>
+			</p>
+		</div>
 		<slot></slot>
 	</div>
 </template>
 
 <script lang="ts">
 	import { Component, Prop, Vue } from 'vue-property-decorator'
+	import { Vector3 } from 'coma-physics'
 
 	@Component
 	export default class Workspace extends Vue {
 		@Prop() settingActive!: boolean
+		@Prop() currentPosition!: Vector3
+		@Prop() currentVelocity!: Vector3
 	}
 </script>
 
