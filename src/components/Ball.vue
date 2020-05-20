@@ -23,6 +23,7 @@
 	export default class Ball extends Vue {
 		@Prop() settingPosition!: boolean
 		@Prop() settingVelocity!: boolean
+		@Prop() telemetryBus!: Vue
 		@Prop() bus!: Vue
 
 		particle?: Particle
@@ -89,17 +90,27 @@
 					if (pos) {
 						this.currentPosition.x += pos.x
 						this.currentPosition.y += pos.y
+						this.telemetryBus.$emit('update', {
+							pos: this.currentPosition,
+							vel: this.particle?.getVelocity(),
+						})
 						if (
 							Math.abs(this.currentPosition.x) >= windowWidth ||
 							Math.abs(this.currentPosition.y) >= windowHeight
 						) {
+							console.log(this.currentPosition)
 							cancelAnimationFrame(this.animationFrame)
+							return
 						}
 					}
 				} catch (e) {
-					console.log('wait for nonzero duration')
+					if (duration <= 0) {
+						console.log('wait for nonzero duration')
+					} else {
+						console.error(e)
+						return
+					}
 				}
-
 				this.animationFrame = requestAnimationFrame(animateOnFrame)
 			}
 
@@ -108,50 +119,31 @@
 
 		generateParticle(particleType: string) {
 			let velocity, acceleration
+			const position = new Vector3(0, 0, 0)
 
 			switch (particleType) {
 				case 'pistol':
 					velocity = new Vector3(35, 0, 0)
 					acceleration = new Vector3(0, -1, 0)
-					this.particle = new Particle(
-						this.initialPosition,
-						velocity,
-						acceleration,
-						0.99,
-					)
+					this.particle = new Particle(position, velocity, acceleration, 0.999)
 					this.particle.setMass(2)
 					break
 				case 'artillery':
 					velocity = new Vector3(40, 30, 0)
 					acceleration = new Vector3(0, -20, 0)
-					this.particle = new Particle(
-						this.initialPosition,
-						velocity,
-						acceleration,
-						0.99,
-					)
+					this.particle = new Particle(position, velocity, acceleration, 0.999)
 					this.particle.setMass(200)
 					break
 				case 'fireball':
 					velocity = new Vector3(10, 0, 0)
 					acceleration = new Vector3(0, 0.6, 0)
-					this.particle = new Particle(
-						this.initialPosition,
-						velocity,
-						acceleration,
-						0.9,
-					)
+					this.particle = new Particle(position, velocity, acceleration, 0.999)
 					this.particle.setMass(1)
 					break
 				case 'laser':
 					velocity = new Vector3(100, 0, 0)
 					acceleration = new Vector3(0, 0, 0)
-					this.particle = new Particle(
-						this.initialPosition,
-						velocity,
-						acceleration,
-						0.99,
-					)
+					this.particle = new Particle(position, velocity, acceleration, 0.999)
 					this.particle.setMass(0.1)
 					break
 			}
@@ -164,8 +156,11 @@
 		resetBall() {
 			this.shouldAnimate = false
 			this.particle = undefined
-			this.initialPosition = new Vector3(0, 0, 0)
 			this.currentPosition = new Vector3(0, 0, 0)
+			this.bus.$emit('update', {
+				pos: new Vector3(0, 0, 0),
+				vel: new Vector3(0, 0, 0),
+			})
 			cancelAnimationFrame(this.animationFrame)
 		}
 	}

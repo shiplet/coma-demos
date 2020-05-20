@@ -2,11 +2,16 @@
 	<div>
 		<h1>Part One</h1>
 		<h3>Vectors & Particles: Position, Velocity, and Acceleration</h3>
-		<Workspace :settingActive="settingPosition">
+		<Workspace
+			:settingActive="settingPosition"
+			:telemetryPosition="telemetryPosition"
+			:telemetryVelocity="telemetryVelocity"
+		>
 			<Ball
 				:settingPosition="settingPosition"
 				:settingVelocity="settingVelocity"
 				:bus="bus"
+				:telemetryBus="bus"
 			/>
 		</Workspace>
 		<Gallery>
@@ -28,6 +33,11 @@
 	import Workspace from '@/components/Workspace.vue'
 	import { Vector3, Particle } from 'coma-physics'
 
+	interface TelemetryUpdate {
+		pos: Vector3
+		vel: Vector3
+	}
+
 	@Component({
 		components: {
 			ActionButton,
@@ -39,7 +49,18 @@
 	export default class PartOne extends Vue {
 		settingPosition = false
 		settingVelocity = false
+		telemetryPosition = new Vector3(0, 0, 0)
+		telemetryVelocity = new Vector3(0, 0, 0)
 		bus = new Vue()
+
+		mounted() {
+			this.bus.$on('update', this.update)
+		}
+
+		update(tick: TelemetryUpdate) {
+			this.telemetryPosition = tick.pos
+			this.telemetryVelocity = tick.vel
+		}
 
 		setPosition() {
 			this.resetOptions()
