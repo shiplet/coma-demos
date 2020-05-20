@@ -32,7 +32,6 @@
 		manualPositioning = false
 		shouldAnimate = false
 		animationFrame!: number
-		lastTick = 0
 
 		mounted() {
 			this.bus.$on('resetBall', this.resetBall)
@@ -167,7 +166,6 @@
 			this.particle = undefined
 			this.initialPosition = new Vector3(0, 0, 0)
 			this.currentPosition = new Vector3(0, 0, 0)
-			this.lastTick = 0
 			cancelAnimationFrame(this.animationFrame)
 		}
 	}
