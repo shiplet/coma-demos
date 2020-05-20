@@ -32,7 +32,7 @@
 		manualPositioning = false
 		shouldAnimate = false
 		animationFrame!: number
-		start = 0
+		lastTick = 0
 
 		mounted() {
 			this.bus.$on('resetBall', this.resetBall)
@@ -74,7 +74,7 @@
 		}
 
 		animate(particleType: string) {
-			this.start = performance.now()
+			this.lastTick = performance.now()
 			const windowWidth = window.innerWidth
 			const windowHeight = window.innerHeight
 
@@ -82,7 +82,7 @@
 
 			const animateOnFrame = () => {
 				try {
-					this.particle?.integrate((performance.now() - this.start) / 1000)
+					this.particle?.integrate((performance.now() - this.lastTick) / 1000)
 					const pos = this.particle?.getPosition()
 					if (pos) {
 						this.currentPosition.x += pos.x
@@ -99,6 +99,7 @@
 						console.log('wait for non-zero duration')
 					}, 0)
 				}
+				this.lastTick = performance.now()
 				this.animationFrame = requestAnimationFrame(animateOnFrame)
 			}
 
@@ -110,7 +111,7 @@
 
 			switch (particleType) {
 				case 'pistol':
-					velocity = new Vector3(50, 0, 0)
+					velocity = new Vector3(35, 0, 0)
 					acceleration = new Vector3(0, -1, 0)
 					this.particle = new Particle(
 						this.initialPosition,
@@ -143,7 +144,7 @@
 					this.particle.setMass(1)
 					break
 				case 'laser':
-					velocity = new Vector3(150, 0, 0)
+					velocity = new Vector3(100, 0, 0)
 					acceleration = new Vector3(0, 0, 0)
 					this.particle = new Particle(
 						this.initialPosition,
@@ -165,7 +166,7 @@
 			this.particle = undefined
 			this.initialPosition = new Vector3(0, 0, 0)
 			this.currentPosition = new Vector3(0, 0, 0)
-			this.start = 0
+			this.lastTick = 0
 			cancelAnimationFrame(this.animationFrame)
 		}
 	}
