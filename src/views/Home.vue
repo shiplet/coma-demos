@@ -19,6 +19,15 @@
 				>developedlife.io</a
 			>
 		</p>
+		<p>
+			And the coma-physics repo lives on
+			<a
+				href="https://github.com/shiplet/coma-physics"
+				target="_blank"
+				rel="noopener noreferrer"
+				>github</a
+			>.
+		</p>
 		<p>Stay tuned for updates!</p>
 		<p>
 			<a
