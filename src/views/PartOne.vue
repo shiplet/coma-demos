@@ -15,7 +15,10 @@
 				:action="setPosition"
 				:active="settingPosition"
 			/> -->
-			<ActionButton title="Animate" :action="animate" />
+			<ActionButton title="Pistol" :action="() => animate('pistol')" />
+			<ActionButton title="Artillery" :action="() => animate('artillery')" />
+			<ActionButton title="Fireball" :action="() => animate('fireball')" />
+			<ActionButton title="Laser" :action="() => animate('laser')" />
 			<ActionButton title="Reset" :action="resetOptions" type="caution" />
 		</Gallery>
 	</div>
@@ -53,8 +56,8 @@
 			this.settingVelocity = true
 		}
 
-		animate() {
-			this.bus.$emit('animate')
+		animate(particleType: string) {
+			this.bus.$emit('particle:type', particleType)
 		}
 
 		resetOptions() {

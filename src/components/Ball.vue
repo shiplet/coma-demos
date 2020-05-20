@@ -25,12 +25,9 @@
 		@Prop() settingVelocity!: boolean
 		@Prop() bus!: Vue
 
-		particle!: Particle
+		particle?: Particle
 		initialPosition = new Vector3(0, 0, 0)
 		currentPosition = new Vector3(0, 0, 0)
-		initialVelocity = new Vector3(1, 0, 0)
-		acceleration = new Vector3(0, -0.035, 0)
-		damping = 0.999
 
 		manualPositioning = false
 		shouldAnimate = false
@@ -39,15 +36,7 @@
 
 		mounted() {
 			this.bus.$on('resetBall', this.resetBall)
-			this.bus.$on('animate', this.animate)
-			this.particle = new Particle(
-				this.initialPosition,
-				this.initialVelocity,
-				this.acceleration,
-				this.damping,
-			)
-
-			this.particle.setMass(1)
+			this.bus.$on('particle:type', this.animate)
 		}
 
 		get currentStyle(): string {
@@ -84,15 +73,74 @@
 			}
 		}
 
-		animate() {
+		animate(particleType: string) {
 			this.start = performance.now()
+			const windowWidth = window.innerWidth
+			const windowHeight = window.innerHeight
+
+			let velocity, acceleration
+
+			switch (particleType) {
+				case 'pistol':
+					velocity = new Vector3(35, 0, 0)
+					acceleration = new Vector3(0, -1, 0)
+					this.particle = new Particle(
+						this.initialPosition,
+						velocity,
+						acceleration,
+						0.99,
+					)
+					this.particle.setMass(2)
+					break
+				case 'artillery':
+					velocity = new Vector3(40, 30, 0)
+					acceleration = new Vector3(0, -20, 0)
+					this.particle = new Particle(
+						this.initialPosition,
+						velocity,
+						acceleration,
+						0.99,
+					)
+					this.particle.setMass(200)
+					break
+				case 'fireball':
+					velocity = new Vector3(10, 0, 0)
+					acceleration = new Vector3(0, 0.6, 0)
+					this.particle = new Particle(
+						this.initialPosition,
+						velocity,
+						acceleration,
+						0.9,
+					)
+					this.particle.setMass(1)
+					break
+				case 'laser':
+					velocity = new Vector3(100, 0, 0)
+					acceleration = new Vector3(0, 0, 0)
+					this.particle = new Particle(
+						this.initialPosition,
+						velocity,
+						acceleration,
+						0.99,
+					)
+					this.particle.setMass(0.1)
+					break
+			}
 
 			const animateOnFrame = () => {
 				try {
-					this.particle.integrate((performance.now() - this.start) / 1000)
-					const pos = this.particle.getPosition()
-					this.currentPosition.x += pos.x
-					this.currentPosition.y += pos.y
+					this.particle?.integrate((performance.now() - this.start) / 1000)
+					const pos = this.particle?.getPosition()
+					if (pos) {
+						this.currentPosition.x += pos.x
+						this.currentPosition.y += pos.y
+						if (
+							Math.abs(this.currentPosition.x) >= windowWidth ||
+							Math.abs(this.currentPosition.y) >= windowHeight
+						) {
+							cancelAnimationFrame(this.animationFrame)
+						}
+					}
 				} catch (e) {
 					setTimeout(() => {
 						console.log('wait for non-zero duration')
@@ -110,15 +158,9 @@
 
 		resetBall() {
 			this.shouldAnimate = false
+			this.particle = undefined
 			this.initialPosition = new Vector3(0, 0, 0)
 			this.currentPosition = new Vector3(0, 0, 0)
-			this.initialVelocity = new Vector3(1, 0, 0)
-			this.particle = new Particle(
-				this.initialPosition,
-				this.initialVelocity,
-				this.acceleration,
-				this.damping,
-			)
 			this.start = 0
 			cancelAnimationFrame(this.animationFrame)
 		}
@@ -127,13 +169,13 @@
 
 <style lang="scss" scoped>
 	#ball {
-		height: 80px;
-		width: 80px;
+		height: 20px;
+		width: 20px;
 		border: none;
 		border-radius: 50%;
 		background-color: #fefefe;
 		position: absolute;
-		top: 15px;
+		top: 50%;
 		left: 15px;
 		margin: 0;
 

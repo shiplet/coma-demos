@@ -2843,10 +2843,10 @@ color@^3.0.0:
     color-convert "^1.9.1"
     color-string "^1.5.2"
 
-coma-physics@^1.0.2:
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/coma-physics/-/coma-physics-1.0.2.tgz#2f17412eb316c9cd54fa852ad721638119e8b37f"
-  integrity sha512-YDsYEjnhkYHEGdhfTBsqVQcpF7fDAC+b1h0k2nkIHtuHByeqju2PNgTRWgVZCfCCJNesRbDRLc9QckA50FucpA==
+coma-physics@^1.0.3:
+  version "1.0.3"
+  resolved "https://registry.yarnpkg.com/coma-physics/-/coma-physics-1.0.3.tgz#1d8fa9d846c12867d229bc5c39870a6c49de8aa5"
+  integrity sha512-dxutvejh5AzjIY1OsHx2pmGDh01t0qFNzixJD0MuO+inaneyow2y2klNqglSopL196otdGEcGAcrXmVGqMuLig==
 
 combined-stream@^1.0.6, combined-stream@~1.0.6:
   version "1.0.8"
