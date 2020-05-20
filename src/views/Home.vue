@@ -1,5 +1,6 @@
 <template>
 	<div class="home">
+		<img src="../assets/logo.png" alt="" />
 		<h1>Welcome to Coma Physics</h1>
 		<p>
 			This is the companion site for everything I'm learning about building a
