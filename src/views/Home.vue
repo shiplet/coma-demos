@@ -10,6 +10,15 @@
 			It contains demos and hands-on explanations for each of the concepts that
 			go into buildng a physics engine.
 		</p>
+		<p>
+			To follow along on my blog, visit
+			<a
+				href="https://developedlife.io/tag/coma-physics"
+				target="_blank"
+				rel="noopener noreferrer"
+				>developedlife.io</a
+			>
+		</p>
 		<p>Stay tuned for updates!</p>
 		<p>
 			<a
@@ -22,10 +31,6 @@
 
 		<Gallery>
 			<NavButton to="/part-1" title="Part 1" />
-
-			<!-- <NavButton>
-				<router-link to="/part-2">Part 2</router-link>
-			</NavButton> -->
 		</Gallery>
 	</div>
 </template>

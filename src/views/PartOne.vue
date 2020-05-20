@@ -10,11 +10,6 @@
 			/>
 		</Workspace>
 		<Gallery>
-			<!-- <ActionButton
-				title="Set Position"
-				:action="setPosition"
-				:active="settingPosition"
-			/> -->
 			<ActionButton title="Pistol" :action="() => animate('pistol')" />
 			<ActionButton title="Artillery" :action="() => animate('artillery')" />
 			<ActionButton title="Fireball" :action="() => animate('fireball')" />
