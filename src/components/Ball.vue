@@ -74,15 +74,18 @@
 		}
 
 		animate(particleType: string) {
-			this.lastTick = performance.now()
+			let lastTick = 0
 			const windowWidth = window.innerWidth
 			const windowHeight = window.innerHeight
 
 			this.generateParticle(particleType)
 
-			const animateOnFrame = () => {
+			const animateOnFrame = (currentTime: number) => {
+				if (lastTick === 0) lastTick = currentTime
+				const duration = currentTime - lastTick
+
 				try {
-					this.particle?.integrate((performance.now() - this.lastTick) / 1000)
+					this.particle?.integrate(duration / 1000)
 					const pos = this.particle?.getPosition()
 					if (pos) {
 						this.currentPosition.x += pos.x
@@ -95,15 +98,13 @@
 						}
 					}
 				} catch (e) {
-					setTimeout(() => {
-						console.log('wait for non-zero duration')
-					}, 0)
+					console.log('wait for nonzero duration')
 				}
-				this.lastTick = performance.now()
+
 				this.animationFrame = requestAnimationFrame(animateOnFrame)
 			}
 
-			animateOnFrame()
+			this.animationFrame = requestAnimationFrame(animateOnFrame)
 		}
 
 		generateParticle(particleType: string) {
