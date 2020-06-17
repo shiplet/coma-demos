@@ -19,6 +19,7 @@
 			<ActionButton title="Artillery" :action="() => animate('artillery')" />
 			<ActionButton title="Fireball" :action="() => animate('fireball')" />
 			<ActionButton title="Laser" :action="() => animate('laser')" />
+			<ActionButton title="Bomb" :action="() => animate('bomb')" />
 			<ActionButton title="Reset" :action="resetOptions" type="caution" />
 		</Gallery>
 	</div>
