@@ -146,6 +146,12 @@
 					this.particle = new Particle(position, velocity, acceleration, 0.999)
 					this.particle.setMass(0.1)
 					break
+				case 'bomb':
+					velocity = new Vector3(0.1, 0.25, 0)
+					acceleration = new Vector3(0, -0.15, 0)
+					this.particle = new Particle(position, velocity, acceleration, 0.99)
+					this.particle.setMass(200)
+					break
 			}
 		}
 
