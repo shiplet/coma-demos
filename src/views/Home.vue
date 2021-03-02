@@ -13,10 +13,10 @@
 		<p>
 			To follow along on my blog, visit
 			<a
-				href="https://developedlife.io/tag/coma-physics"
+				href="https://shiplet.dev"
 				target="_blank"
 				rel="noopener noreferrer"
-				>developedlife.io</a
+				>shiplet.dev</a
 			>
 		</p>
 		<p>
